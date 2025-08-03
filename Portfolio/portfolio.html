@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Stunning Portfolio</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Three.js CDN for 3D graphics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        /* Custom styles to enhance Tailwind */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; /* Dark background inspired by GitHub dark mode */
+            color: #c9d1d9; /* Light gray text */
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        .section-heading {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 2.5rem; /* Larger heading */
+            font-weight: 700;
+            color: #58a6ff; /* Vibrant blue for headings */
+        }
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 80%;
+            height: 4px;
+            background: linear-gradient(to right, #58a6ff, #8b5cf6); /* Gradient underline */
+            border-radius: 2px;
+        }
+        .card {
+            background-color: #161b22; /* Slightly lighter dark for cards */
+            border: 1px solid #30363d; /* Subtle border */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); /* Deeper shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* More prominent shadow */
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #58a6ff, #8b5cf6); /* Gradient button */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+        }
+        .project-link {
+            color: #58a6ff;
+            transition: color 0.2s ease;
+        }
+        .project-link:hover {
+            color: #8b5cf6; /* Change color on hover */
+        }
+        /* Gradient text effect for certain elements */
+        .gradient-text {
+            background: linear-gradient(to right, #58a6ff, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 3D Background Canvas Styling */
+        #three-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1; /* Place behind content */
+            display: block;
+        }
+
+        /* Ensure content is above the 3D background */
+        main, header, footer {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- 3D Background Canvas -->
+    <canvas id="three-bg"></canvas>
+
+    <header class="bg-gray-900 py-6">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="#" class="text-3xl font-bold gradient-text">YourName</a>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#about" class="text-gray-300 hover:text-white transition-colors duration-200">About</a></li>
+                    <li><a href="#skills" class="text-gray-300 hover:text-white transition-colors duration-200">Skills</a></li>
+                    <li><a href="#projects" class="text-gray-300 hover:text-white transition-colors duration-200">Projects</a></li>
+                    <li><a href="#habits" class="text-gray-300 hover:text-white transition-colors duration-200">Habits</a></li>
+                    <li><a href="#contact" class="text-gray-300 hover:text-white transition-colors duration-200">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+        <!-- About Me / Hero Section -->
+        <section id="about" class="flex flex-col md:flex-row items-center justify-center md:justify-between py-16 mb-20">
+            <div class="md:w-1/2 text-center md:text-left mb-8 md:mb-0">
+                <h1 class="text-5xl md:text-6xl font-extrabold leading-tight mb-4">
+                    Hi, I'm <span class="gradient-text">Sai Nadigatla</span>
+                </h1>
+                <p class="text-xl text-gray-400 mb-8 max-w-lg mx-auto md:mx-0">
+                    A passionate <span class="font-semibold text-white">[Your Profession/Role]</span> dedicated to building engaging and innovative web experiences.
+                </p>
+                <a href="#projects" class="inline-block btn-primary text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+                    View My Work
+                </a>
+            </div>
+            <div class="md:w-1/3 flex justify-center">
+                <!-- Placeholder for a professional profile picture -->
+                <img src="https://placehold.co/300x300/30363d/c9d1d9?text=Your+Photo" alt="Your Profile Picture" class="rounded-full w-64 h-64 object-cover border-4 border-purple-500 shadow-xl">
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-16 mb-20">
+            <h2 class="section-heading text-center mx-auto">My Skills</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+                <!-- Skill Card 1 -->
+                <div class="card p-6 rounded-lg text-center">
+                    <h3 class="text-2xl font-semibold mb-3 text-white">Frontend Development</h3>
+                    <p class="text-gray-400">HTML, CSS, JavaScript, React, Tailwind CSS</p>
+                </div>
+                <!-- Skill Card 2 -->
+                <div class="card p-6 rounded-lg text-center">
+                    <h3 class="text-2xl font-semibold mb-3 text-white">Backend Development</h3>
+                    <p class="text-gray-400">Node.js, REST APIs</p>
+                </div>
+                <!-- Skill Card 3 -->
+                <div class="card p-6 rounded-lg text-center">
+                    <h3 class="text-2xl font-semibold mb-3 text-white">Databases</h3>
+                    <p class="text-gray-400">MongoDB, MySQL, Firebase Firestore</p>
+                </div>
+                <!-- Skill Card 4 -->
+                <div class="card p-6 rounded-lg text-center">
+                    <h3 class="text-2xl font-semibold mb-3 text-white">Tools & DevOps</h3>
+                    <p class="text-gray-400">Git, Render, Vercel, Netlify</p>
+                </div>
+        
+                <!-- Skill Card 5 -->
+                <div class="card p-6 rounded-lg text-center">
+                    <h3 class="text-2xl font-semibold mb-3 text-white">Soft Skills</h3>
+                    <p class="text-gray-400">Problem Solving, Communication, Teamwork, Adaptability</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-16 mb-20">
+            <h2 class="section-heading text-center mx-auto">My Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+                <!-- Project Card 1 -->
+<div class="card p-6 rounded-lg">
+    <img src="project_1_logo.png" alt="Project 1 Thumbnail" class="rounded-md mb-4 w-full h-auto object-cover">
+    <h3 class="text-2xl font-semibold mb-2 text-white">DSA Roadmap</h3>
+    <p class="text-gray-400 mb-4">
+        A DSA Roadmap and Tracker built using Firebase and vanilla HTML/CSS/JS.
+        Features topic-wise question lists, user authentication, and Firestore-based progress tracking.
+    </p>
+    <a href="https://sainadigatla.github.io/Quick-DSA/" class="text-blue-500 hover:underline" target="_blank">Live Demo &rarr;</a>
+    <span class="text-gray-600 mx-2">|</span>
+    <a href="https://github.com/SaiNadigatla/Quick-DSA" class="text-blue-500 hover:underline" target="_blank">GitHub Repo &rarr;</a>
+</div>
+
+                <!-- Project Card 2 -->
+                <div class="card p-6 rounded-lg">
+                    <img src="blog_logo.png" alt="Project 2 Thumbnail" class="rounded-md mb-4 w-full h-auto object-cover">
+                    <h3 class="text-2xl font-semibold mb-2 text-white">Blog App</h3>
+                    <p class="text-gray-400 mb-4">
+                        A full-stack Blog Application built with MongoDB, Express.js, React, and Node.js.
+Features user authentication, blog creation/editing, likes, comments, and responsive UI with CSS.
+                    </p>
+                    <a href="#" class="project-link font-medium">Live Demo &rarr;</a>
+                    <span class="text-gray-600 mx-2">|</span>
+                    <a href="#" class="project-link font-medium">GitHub Repo &rarr;</a>
+                </div>
+                <!-- Add more project cards as needed -->
+            </div>
+        </section>
+
+        <!-- Habits & Interests Section -->
+        <section id="habits" class="py-16 mb-20">
+            <h2 class="section-heading text-center mx-auto">My Habits & Interests</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+                <!-- Habit/Interest Card 1 -->
+                <div class="card p-6 rounded-lg">
+                    <h3 class="text-2xl font-semibold mb-3 text-white">Continuous Learning 📚</h3>
+                    <p class="text-gray-400">
+                        I dedicate time daily to learn new technologies, frameworks, and best practices through online courses, documentation, and coding challenges.
+                    </p>
+                </div>
+                <!-- Habit/Interest Card 2 -->
+                <div class="card p-6 rounded-lg">
+                    <h3 class="text-2xl font-semibold mb-3 text-white">Problem Solving 💡</h3>
+                    <p class="text-gray-400">
+                        I enjoy tackling complex coding problems and finding elegant solutions, often participating in competitive programming or personal coding projects.
+                    </p>
+                </div>
+                <!-- Habit/Interest Card 3 -->
+                <div class="card p-6 rounded-lg">
+                    <h3 class="text-2xl font-semibold mb-3 text-white">Reading & Writing ✍️</h3>
+                    <p class="text-gray-400">
+                        Beyond coding, I love reading sci-fi novels and occasionally writing short stories or technical articles to share knowledge.
+                    </p>
+                </div>
+                <!-- Habit/Interest Card 4 -->
+                <div class="card p-6 rounded-lg">
+                    <h3 class="text-2xl font-semibold mb-3 text-white">Fitness & Outdoors 🏞️</h3>
+                    <p class="text-gray-400">
+                        Staying active with hiking, cycling, or gym workouts helps me maintain focus and creativity.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 text-center">
+            <h2 class="section-heading mx-auto">Get In Touch</h2>
+            <p class="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
+                Have a project in mind or just want to chat? Feel free to reach out!
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <a href="mailto:your.email@example.com" class="inline-block btn-primary text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:shadow-xl transition-all duration-300">
+                    Email Me
+                </a>
+                <a href="https://linkedin.com/in/yourprofile" target="_blank" class="inline-block bg-gray-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-gray-600 transition-all duration-300">
+                    LinkedIn
+                </a>
+                <a href="https://github.com/yourusername" target="_blank" class="inline-block bg-gray-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg hover:bg-gray-600 transition-all duration-300">
+                    GitHub
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 py-8 text-center text-gray-400">
+        <div class="container mx-auto px-4">
+            <p>&copy; 2025 Sai Nadigatla. All rights reserved.</p>
+            <div class="flex justify-center space-x-4 mt-4">
+                <a href="#" class="hover:text-white transition-colors duration-200">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors duration-200">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Three.js Background Animation - Particle Network
+        let scene, camera, renderer, mouseX = 0, mouseY = 0;
+        let windowHalfX = window.innerWidth / 2;
+        let windowHalfY = window.innerHeight / 2;
+        const particles = [];
+        const particleCount = 200; // Number of particles
+        const maxDistance = 100; // Max distance for lines to connect
+        let lineMesh;
+
+        function initThreeJS() {
+            // Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x0d1117); // Match body background
+
+            // Camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+            camera.position.z = 1000;
+
+            // Renderer
+            const canvas = document.getElementById('three-bg');
+            renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+
+            // Lights (optional, but good for subtle highlights if needed)
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+
+            // Create particles
+            const particleMaterial = new THREE.PointsMaterial({
+                color: 0x58a6ff, // Blue color for particles
+                size: 5, // Size of particles
+                blending: THREE.AdditiveBlending, // For glowing effect
+                transparent: true,
+                opacity: 0.8
+            });
+
+            const particleGeometry = new THREE.BufferGeometry();
+            const positions = new Float32Array(particleCount * 3); // x, y, z for each particle
+
+            for (let i = 0; i < particleCount; i++) {
+                // Random position within a cube
+                const x = Math.random() * 2000 - 1000;
+                const y = Math.random() * 2000 - 1000;
+                const z = Math.random() * 2000 - 1000;
+
+                positions[i * 3] = x;
+                positions[i * 3 + 1] = y;
+                positions[i * 3 + 2] = z;
+
+                particles.push(new THREE.Vector3(x, y, z)); // Store vectors for easy access
+            }
+            particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
+            scene.add(particleSystem);
+
+            // Create lines
+            const lineMaterial = new THREE.LineBasicMaterial({
+                color: 0x8b5cf6, // Purple color for lines
+                linewidth: 1, // Line thickness
+                blending: THREE.AdditiveBlending,
+                transparent: true,
+                opacity: 0.2
+            });
+
+            const lineGeometry = new THREE.BufferGeometry();
+            // Initialize lineGeometry with an empty buffer attribute to prevent errors on first render
+            lineGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(), 3));
+            lineMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
+            scene.add(lineMesh);
+
+            // Event Listeners
+            document.addEventListener('mousemove', onDocumentMouseMove, false);
+            window.addEventListener('resize', onWindowResize, false);
+        }
+
+        function onDocumentMouseMove(event) {
+            mouseX = (event.clientX - windowHalfX);
+            mouseY = (event.clientY - windowHalfY);
+        }
+
+        function onWindowResize() {
+            windowHalfX = window.innerWidth / 2;
+            windowHalfY = window.innerHeight / 2;
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Update particle positions (subtle movement)
+            // No need to get lineMesh.geometry.attributes.position.array here, as we're rebuilding linePositions
+            // const positions = lineMesh.geometry.attributes.position.array; // REMOVED THIS LINE
+            // const particlePositions = particles.map(p => p.clone()); // This line is also not directly used for updating particle positions in the BufferGeometry
+
+            for (let i = 0; i < particleCount; i++) {
+                const p = particles[i];
+                // Subtle random movement
+                p.x += (Math.random() - 0.5) * 0.5;
+                p.y += (Math.random() - 0.5) * 0.5;
+                p.z += (Math.random() - 0.5) * 0.5;
+
+                // Keep particles within bounds (optional, but prevents them from flying too far)
+                if (p.x > 1000 || p.x < -1000) p.x *= -1;
+                if (p.y > 1000 || p.y < -1000) p.y *= -1;
+                if (p.z > 1000 || p.z < -1000) p.z *= -1;
+            }
+
+            // Update lines based on particle proximity
+            const linePositions = [];
+            for (let i = 0; i < particleCount; i++) {
+                for (let j = i + 1; j < particleCount; j++) {
+                    const p1 = particles[i];
+                    const p2 = particles[j];
+                    const distance = p1.distanceTo(p2);
+
+                    if (distance < maxDistance) {
+                        linePositions.push(p1.x, p1.y, p1.z);
+                        linePositions.push(p2.x, p2.y, p2.z);
+                    }
+                }
+            }
+            lineMesh.geometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+            lineMesh.geometry.attributes.position.needsUpdate = true;
+
+
+            // Camera movement based on mouse
+            camera.position.x += (mouseX * 0.8 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 0.8 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+
+        // Initialize and start animation when the window loads
+        window.onload = function () {
+            initThreeJS();
+            animate();
+        };
+    </script>
+</body>
+</html>
